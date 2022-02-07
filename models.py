@@ -4,6 +4,8 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
+# TODO: store default image as global variable
+
 
 def connect_db(app):
     """Connect to database."""
