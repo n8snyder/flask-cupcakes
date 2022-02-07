@@ -17,8 +17,6 @@ toolbar = DebugToolbarExtension(app)
 
 connect_db(app)
 
-# TODO: add to docstring example of return data structure
-
 
 @app.get("/api/cupcakes")
 def list_cupcakes():
@@ -33,7 +31,10 @@ def list_cupcakes():
 
 @app.get("/api/cupcakes/<int:id>")
 def get_cupcake(id):
-    """Return details of a single cupcake."""
+    """Return details of a single cupcake.
+
+    {cupcake: {id, flavor, size, rating, image}}
+    """
 
     cupcake = Cupcake.query.get_or_404(id)
     serialized = cupcake.serialize()
@@ -43,12 +44,18 @@ def get_cupcake(id):
 
 @app.post("/api/cupcakes")
 def create_cupcake():
-    """Create a new cupcake in the DB."""
+    """Create a new cupcake in the DB. Return JSON of the new cupcake:
+
+    {cupcake: {id, flavor, size, rating, image}}
+    """
 
     cupcake = request.json
-    new_cupcake = Cupcake(**cupcake)
-
-    # TODO: be explicit with Cupcake arguments
+    new_cupcake = Cupcake(
+        flavor=cupcake["flavor"],
+        size=cupcake["size"],
+        rating=cupcake["rating"],
+        image=cupcake["image"],
+    )
 
     db.session.add(new_cupcake)
     db.session.commit()
@@ -58,7 +65,11 @@ def create_cupcake():
 
 @app.patch("/api/cupcakes/<int:id>")
 def update_cupcake(id):
-    """Updates a cupcake, not all fields are required."""
+    """Updates a cupcake, not all fields are required. Return JSON of updated
+    cupcake:
+
+    {cupcake: {id, flavor, size, rating, image}}
+    """
 
     cupcake = Cupcake.query.get_or_404(id)
     cupcake_updates = request.json
@@ -75,11 +86,14 @@ def update_cupcake(id):
 
 @app.delete("/api/cupcakes/<int:id>")
 def delete_cupcake(id):
-    """Delete a cupcake."""
+    """Delete a cupcake. Return JSON with ID of deleted cupcake.
+
+    {deleted: [cupcake-id]}
+    """
 
     cupcake = Cupcake.query.get_or_404(id)
 
     db.session.delete(cupcake)
     db.session.commit()
 
-    return jsonify(deleted={"id": cupcake.id})
+    return jsonify(deleted=cupcake.id)
