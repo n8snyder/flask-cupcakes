@@ -18,6 +18,13 @@ toolbar = DebugToolbarExtension(app)
 connect_db(app)
 
 
+@app.get("/")
+def homepage():
+    """Homepage, displays create cupcake form and list of cupcakes."""
+
+    return render_template("cupcakes.html")
+
+
 @app.get("/api/cupcakes")
 def list_cupcakes():
     """Return JSON of all cupcakes.
