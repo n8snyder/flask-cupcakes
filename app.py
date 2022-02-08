@@ -32,7 +32,7 @@ def list_cupcakes():
     {cupcakes: [{id, flavor, size, rating, image}, ...]}
     """
 
-    cupcakes = [cupcake.serialize() for cupcake in Cupcake.query.all()]
+    cupcakes = [cupcake.serialize() for cupcake in Cupcake.query.order_by(id).all()]
     return jsonify(cupcakes=cupcakes)
 
 
@@ -61,7 +61,7 @@ def create_cupcake():
         flavor=cupcake["flavor"],
         size=cupcake["size"],
         rating=cupcake["rating"],
-        image=cupcake["image"],
+        image=cupcake["image"] if cupcake["image"] != "" else None,
     )
 
     db.session.add(new_cupcake)
