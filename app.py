@@ -32,9 +32,19 @@ def list_cupcakes():
     {cupcakes: [{id, flavor, size, rating, image}, ...]}
     """
 
-    cupcakes = [
-        cupcake.serialize() for cupcake in Cupcake.query.order_by(Cupcake.id)
-    ]
+    cupcakes = [cupcake.serialize() for cupcake in Cupcake.query.order_by(Cupcake.id)]
+    return jsonify(cupcakes=cupcakes)
+
+
+@app.get("/api/cupcakes/search")
+def find_cupcakes_by_flavor():
+    """Return a list of cupcakes whose flavor matches the search string partial"""
+
+    flavor_search = request.args["searchString"]
+    cupcakes_query = Cupcake.query.filter(
+        Cupcake.flavor.like(f"%{flavor_search}%")
+    ).order_by(Cupcake.id)
+    cupcakes = [cupcake.serialize() for cupcake in cupcakes_query]
     return jsonify(cupcakes=cupcakes)
 
 

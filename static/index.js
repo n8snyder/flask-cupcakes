@@ -58,4 +58,17 @@ async function handleCreateCupcake(evt) {
 // TODO: Can have function for adding one cupcake to list then call this function
 // with the response from the axios.post.
 
+async function handleCupcakeSearch(evt) {
+  evt.preventDefault();
+  const searchString = $("#input-find-flavor").val();
+  const response = await axios.get("/api/cupcakes/search", {
+    params: {
+      searchString: searchString
+    }
+  });
+  displayCupcakesList(response.data.cupcakes);
+  $("#find-cupcakes-by-flavor").trigger("reset");
+}
+
 $("#new-cupcake-form").submit(handleCreateCupcake);
+$("#find-cupcakes-by-flavor").submit(handleCupcakeSearch);

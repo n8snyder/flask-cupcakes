@@ -2,20 +2,25 @@
 
 {% block content %}
 
-<h1>Cupcakes!</h1>
-<h4>Add a cupcake!</h4>
-<form action="/api/cupcakes" method="post" id="new-cupcake-form">
-  <label for="flavor-input">Flavor</label>
-  <input id="flavor-input" name="flavor"><br>
-  <label for="size-input">Size</label>
-  <input id="size-input" name="size"><br>
-  <label for="rating-input">Rating</label>
-  <input id="rating-input" name="rating" type="number"><br>
-  <label for="image-input">Image</label>
-  <input id="image-input" name="image"><br>
-  <button type="submit">Submit</button>
-</form>
-
-<ul id="cupcake-list"></ul>
+  <h1>Cupcakes!</h1>
+  <h4>Add a cupcake!</h4>
+  <form action="/api/cupcakes" method="post" id="new-cupcake-form">
+    <label for="flavor-input">Flavor</label>
+    <input id="flavor-input" name="flavor"><br>
+    <label for="size-input">Size</label>
+    <input id="size-input" name="size"><br>
+    <label for="rating-input">Rating</label>
+    <input id="rating-input" name="rating" type="number"><br>
+    <label for="image-input">Image</label>
+    <input id="image-input" name="image"><br>
+    <button type="submit">Submit</button>
+  </form>
+  <hr>
+  <form action="/api/cupcakes/search" id="find-cupcakes-by-flavor">
+    <input type="text" id="input-find-flavor" name="find-flavor" placeholder="Search cupcakes by flavor">
+    <button type="submit">search</button>
+  </form>
+  <hr>
+  <ul id="cupcake-list"></ul>
 
 {% endblock %}
