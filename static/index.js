@@ -1,6 +1,6 @@
 "use strict";
 
-// const $cupcakeList = $("#cupcake-list");
+const $cupcakeList = $("#cupcake-list");
 
 /** getAllCupcakes: Query API for list of cupcakes */
 
@@ -14,7 +14,7 @@ async function getAllCupcakes() {
 
 function displayCupcakesList(cupcakes) {
   console.log("displayCupcakesList");
-  $("#cupcake-list").empty();
+  $cupcakeList.empty();
   for (let cupcake of cupcakes) {
     const cupcakeTemplate = `
         <li>
@@ -23,7 +23,7 @@ function displayCupcakesList(cupcakes) {
             <span>Size: ${cupcake.size}</span>
             <span>Rating: ${cupcake.rating}</span>
         </li>`;
-    $("#cupcake-list").prepend(cupcakeTemplate);
+    $cupcakeList.prepend(cupcakeTemplate);
   }
 }
 
@@ -50,9 +50,12 @@ async function handleCreateCupcake(evt) {
     image: $("#image-input").val()
   };
 
-  response = await axios.post("/api/cupcakes", newCupcake);
-
+  await axios.post("/api/cupcakes", newCupcake);
   generateCupcakesList();
+  $("#new-cupcake-form").trigger("reset");
 }
+
+// TODO: Can have function for adding one cupcake to list then call this function
+// with the response from the axios.post.
 
 $("#new-cupcake-form").submit(handleCreateCupcake);

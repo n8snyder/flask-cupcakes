@@ -32,7 +32,9 @@ def list_cupcakes():
     {cupcakes: [{id, flavor, size, rating, image}, ...]}
     """
 
-    cupcakes = [cupcake.serialize() for cupcake in Cupcake.query.order_by(id).all()]
+    cupcakes = [
+        cupcake.serialize() for cupcake in Cupcake.query.order_by(Cupcake.id)
+    ]
     return jsonify(cupcakes=cupcakes)
 
 
